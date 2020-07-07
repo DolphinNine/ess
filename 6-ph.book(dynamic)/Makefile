@@ -3,7 +3,8 @@ SOURCES:= main.c show_all.c search_name.c search_number.c modify_entry.c erase_e
 HEADERS := proto.h defs.h
 
 $(BIN): $(SOURCES)
-		gcc $(SOURCES) -o $(BIN)
+		gcc $(SOURCES) -o $(BIN) #-g
 		./$(BIN)
+		#gdb ./$(BIN)
 		rm -rf $(BIN)
 $(BIN): $(HEADERS)

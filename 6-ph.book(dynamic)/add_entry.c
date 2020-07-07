@@ -5,18 +5,18 @@
 #include "defs.h"
 #include "proto.h"
 
-struct phonebook *add_entry(struct phonebook *friends, int pb_size, char s_name[5], unsigned int s_number)
+struct phonebook *add_entry(struct phonebook *friends, char *pb_size_ptr, char s_name[5], unsigned int s_number)
 {
-  pb_size++; //Увеличение объёма структуры на 1
-  if ((friends = (struct phonebook *) realloc (friends, pb_size * sizeof(struct phonebook))) == NULL) //Расширить объём структуры до нового размера
+  *pb_size_ptr+=1; //Увеличение объёма структуры на 1
+  if ((friends = (struct phonebook *) realloc (friends, *pb_size_ptr * sizeof(struct phonebook))) == NULL) //Расширить объём структуры до нового размера
   {
-    perror("Could not allocate reduced phonebook memory!\n");
+    perror("Could not allocate reduced phonebook memory!");
     quit(friends, -1);
   }
   else
   {
-    strcpy(friends[pb_size-1].name, s_name);
-    friends[pb_size-1].number = s_number;
+    strcpy(friends[*pb_size_ptr-1].name, s_name);
+    friends[*pb_size_ptr-1].number = s_number;
     return friends;
   }
 }

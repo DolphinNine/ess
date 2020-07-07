@@ -13,6 +13,7 @@ int main()
 	int i; //Переменная цикла и хранения
 	int pb_size = 10; //Размер телефонной книги. На старте равен 10
 	char dump; //Переменная для сброса муссора вывода в конце цикла
+	char *pb_size_ptr;
 
 	//Книга на 10 начальных записей
 	struct phonebook *friends;
@@ -21,6 +22,7 @@ int main()
 		perror("Could not allocate initial phonebook memory!\n");
 		return -1;
 	}
+	pb_size_ptr = &pb_size;
 
 	//Все 10 записей сразу заполняются произвольными значениями Имя-Телефон
 	strcpy(friends[0].name, "Peter");
@@ -75,7 +77,7 @@ int main()
   			printf("(1) - Show all:\n");
 				//Передать адресс структуры и текущий размер книги(структуры).
 				//Функция сама выведет данные по переданным параметрам
-        show_all(friends, pb_size);
+        show_all(friends, pb_size_ptr);
 			break;
 
 			case '2':
@@ -84,7 +86,7 @@ int main()
 				scanf("%s", s_name);
 				//Передать адресс структуры, текущий размер книги(структуры) и разыскиваемое имя
 				//Функция вернёт номер совпавшей записи, иначе -1
-				if ((i = search_name(friends, pb_size, s_name)) != -1)
+				if ((i = search_name(friends, pb_size_ptr, s_name)) != -1)
 				{
 					printf("\nFound entry: [%d] %s - %d\n", i+1, friends[i].name, friends[i].number);
 				}
@@ -100,7 +102,7 @@ int main()
 				scanf("%d", &s_number);
 				//Передать адресс структуры, текущий размер книги(структуры) и разыскиваемый номер телефона.
 				//Функция вернёт номер совпавшей записи, иначе -1
-				if ((i = search_number(friends, pb_size, s_number)) != -1)
+				if ((i = search_number(friends, pb_size_ptr, s_number)) != -1)
 				{
 					printf("\nFound entry: [%d] %s - %d\n", i+1, friends[i].name, friends[i].number);
 				}
@@ -138,8 +140,7 @@ int main()
 				printf("Erasing: [%d] %s - %d\n", i, friends[i-1].name, friends[i-1].number);
 				//Передать адресс структуры, текущий размер книги(структуры) и номер удаляемой записи
 				//Новый адресс структуры тут же преезаписывается в старую переменную
-				friends = (erase_entry(friends, pb_size, i));
-				pb_size--; //Уменьшение размера книги(структуры)
+				friends = (erase_entry(friends, pb_size_ptr, i));
 				printf("Succeeded!\n");
 			break;
 
@@ -151,8 +152,7 @@ int main()
 				scanf("%d", &s_number);
 				//Передать адресс структуры, текущий размер книги(структуры) и имя и номер новой записи
 				//Новый адресс структуры тут же преезаписывается в старую переменную
-				friends = (add_entry(friends, pb_size, s_name, s_number));
-				pb_size++; //Увеличение объёма структуры на 1
+				friends = (add_entry(friends, pb_size_ptr, s_name, s_number));
 				printf("New entry: [%d] %s - %d\n", pb_size, friends[pb_size-1].name, friends[pb_size-1].number);
 			break;
 

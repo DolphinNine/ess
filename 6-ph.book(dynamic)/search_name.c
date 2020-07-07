@@ -2,9 +2,9 @@
 #include <string.h>
 #include "defs.h"
 
-int search_name(struct phonebook *friends, int pb_size, char s_name[5])
+int search_name(struct phonebook *friends, char *pb_size_ptr, char s_name[5])
 {
-  for (int i = 0; i < pb_size; i++)
+  for (int i = 0; i < *pb_size_ptr; i++)
   {
     if (strcmp(friends[i].name, s_name) == 0)
     {
