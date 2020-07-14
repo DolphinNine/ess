@@ -9,7 +9,7 @@ int multiply(int a, int b) //Умножение
 }
 
 //Функция передачи данных. Работа описана в add.c
-char pass_name(struct list *libs, unsigned int i)
+int pass_name(struct list *libs, unsigned int i)
 {
 	strcpy(libs[i].name, "Multiplication");
 	strcpy(libs[i].func_name, "multiply");
