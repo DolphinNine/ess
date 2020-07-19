@@ -50,7 +50,7 @@ int main()
 
   attron(COLOR_PAIR(2));
   bkgd(COLOR_PAIR(2));
-  mvprintw(0, 2, "Enter - Open | F12 - Exit");
+  mvprintw(0, 2, "Enter - Open | Tab - Switch window | F12 - Exit");
 
   //Открытие нового окна и установка его режимов
   wnd_left = draw_win(wnd_left, 1, 2);
