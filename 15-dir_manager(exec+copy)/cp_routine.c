@@ -66,7 +66,7 @@ int cp_rountine(WINDOW *wnd, char cp_file_name[255], char cp_file_cwd[PATH_MAX])
   /*Ожидание завершения работы потоков*/
   pthread_join(paste_func_tid, &return_value_paste);
   pthread_join(draw_func_tid, &return_value_draw);
-  if ((int *)return_value_paste > 0 || (int *)return_value_paste > 0)
+  if ((int *)return_value_paste != 0 || (int *)return_value_draw != 0)
   {
     return -1;
   }
@@ -93,7 +93,7 @@ void *paste_file(void *params_ptr)
   if ((fd_original = open(params->cp_file_cwd, O_RDONLY)) < 0)
   {
     print_message(params->wnd, -1, "PASTE THREAD: Original file descriptor opening failed");
-    return (void *)-1;
+    pthread_exit((void *)-1);
   }
   /*Копия - режим: только запись; создать файл при открытии; не перезаписывать,
     если файл уже существует; конкретизация прав доступа созданного файла*/
@@ -102,7 +102,7 @@ void *paste_file(void *params_ptr)
     /*(немного расширив чтение ошибки, можно было бы даже сообщить, что именно
       с файлом не так: существует ли он, или ещё что-то)*/
     print_message(params->wnd, -1, "PASTE THREAD: Copy file descriptor opening failed");
-    return (void *)-1;
+    pthread_exit((void *)-1);
   }
 
 /*---------------------------------------------------------------------------*/
@@ -123,7 +123,7 @@ void *paste_file(void *params_ptr)
   /*Нечего писать и нечего читать - закрыть файлы и окончить работу*/
   close(fd_copy);
   close(fd_original);
-  return 0;
+  pthread_exit((void *)0);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -203,5 +203,5 @@ void *draw_progress_win(void *params_ptr)
   getch();
   delwin(progress_subwin);
   refresh();
-  return 0;
+  pthread_exit((void *)0);
 }
