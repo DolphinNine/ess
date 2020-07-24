@@ -8,7 +8,7 @@
 #include <time.h>
 #include "defs.h"
 
-void *customer(void *shops_ptr) //unsigned int *shop, pthread_mutex_t *shop_mut
+void *customer(void *shops_ptr)
 {
 /*---------------------------------------------------------------------------*/
 /*Объявления и настройки*/
@@ -38,9 +38,8 @@ void *customer(void *shops_ptr) //unsigned int *shop, pthread_mutex_t *shop_mut
     от вероятности сгененировать уже занятую букву, но пока в программе нет
     блокированого/передаваемого значения или имени для покупателя - будет
     использоваться такой подход.*/
-  name_letter = 'A' + (random() % 26);
+  name_letter = 'A' + (rand() % 26);
   printf("START - [CUSTOMER %c] Demand set for %d\n", name_letter, demand);
-  //printf("START - [CUSTOMER %ld] Demand set for %d\n", pthread_self(), demand);
 
 /*---------------------------------------------------------------------------*/
 /*Основная работа функции*/
@@ -77,11 +76,11 @@ void *customer(void *shops_ptr) //unsigned int *shop, pthread_mutex_t *shop_mut
         demand += -(demand);
         /*Сообщить, где спрос был удовлетворён*/
         printf("STOP - [CUSTOMER %c] Satisfied on shop#%d (Supply: %d)\n", name_letter, (int)current_shop + 1, shops[(int)current_shop].products);
-        /*Разорвать цикл*/
+        /*Разорвать цикл (разрывается сам условием цикла while)*/
       }
       pthread_mutex_unlock(&shops[(int)current_shop].shop_mut);
     }
     sleep(2);
   }
-  return 0;
+  pthread_exit(0);
 }

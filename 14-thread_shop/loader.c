@@ -8,7 +8,7 @@
 #include <time.h>
 #include "defs.h"
 
-void *loader(void *shops_ptr) //unsigned int *shop, pthread_mutex_t *shop_mut
+void *loader(void *shops_ptr)
 {
 /*---------------------------------------------------------------------------*/
 /*Объявления и настройки*/
